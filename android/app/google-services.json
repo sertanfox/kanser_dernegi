@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "702670141287",
+    "project_id": "sosyal-destek-498c2",
+    "storage_bucket": "sosyal-destek-498c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702670141287:android:1757e878c82befe67521c2",
+        "android_client_info": {
+          "package_name": "com.sosyal.destek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702670141287-k1q8o1jgfl5lla4ipmd4vdlhakv56rri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5xjFT6Ux_z9mjeqaXVnWGtJiG_DakWU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702670141287-k1q8o1jgfl5lla4ipmd4vdlhakv56rri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
