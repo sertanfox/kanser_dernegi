@@ -1,3 +1,4 @@
+import 'package:examples/chat/chatrooms.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/routes.dart';
 import 'package:examples/screens/group_chat.dart';
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: GroupChat.routeName,
+      initialRoute: ChatRoom.routeName,
       routes: routes,
     );
   }

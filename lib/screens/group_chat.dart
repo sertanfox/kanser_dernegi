@@ -1,7 +1,5 @@
 import "package:flutter/material.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
 import '../viewmodels.dart';
-import 'package:examples/states/groupchat_state.dart';
 
 class GroupChat extends StatefulWidget {
   static String routeName = "/group_chat";
@@ -11,6 +9,7 @@ class GroupChat extends StatefulWidget {
 
 class _GroupChatState extends State<GroupChat> {
   TextEditingController message = TextEditingController();
+  TextMessage NewMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class _GroupChatState extends State<GroupChat> {
     return Container();
   }
 
-  Widget _listMessagesWidget() {
+  Widget _listMessagesWidget({TextMessage message}) {
     return Expanded(
       child: ListView(
         children: [
@@ -46,6 +45,7 @@ class _GroupChatState extends State<GroupChat> {
           TextMessage("Ayşe", "Merhaba arkadaşlar günaydın herkese", false),
           TextMessage("Fatma", "Merhaba arkadaşlar nasılsınız", false),
           TextMessage("Hayriye", "Merhabalar", false),
+
         ],
       ),
     );
@@ -123,7 +123,15 @@ class _GroupChatState extends State<GroupChat> {
           child: IconButton(
             icon: Icon(Icons.send),
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () async {
+              print('TAPPED');
+              NewMessage =  TextMessage('Jordan',message.text,true);
+              print(NewMessage.toString());
+              setState(() {
+                _listMessagesWidget(message:NewMessage);
+
+              });
+            },
           ),
         )
       ],

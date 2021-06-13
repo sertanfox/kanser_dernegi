@@ -7,7 +7,7 @@ class TextMessage extends StatelessWidget {
   final bool;
 
   TextMessage(
-      @required this.username, @required this.message, @required this.bool);
+      this.username, this.message, this.bool);
 
   @override
   Widget build(BuildContext context) {

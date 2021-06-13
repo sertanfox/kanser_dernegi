@@ -58,3 +58,7 @@ class Validators {
     'Çorum',
   ];
 }
+class Constants{
+
+  static String myName = "";
+}
