@@ -2,7 +2,6 @@ import 'package:examples/chat/chatrooms.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/providers/user_provider.dart';
 import 'package:examples/routes.dart';
-import 'package:examples/screens/informations.dart';
 import 'package:examples/screens/phonenumber.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: Informations.routeName,
+      initialRoute: PhoneNumber.routeName,
       routes: routes,
     );
   }

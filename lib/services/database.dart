@@ -46,17 +46,18 @@ class DatabaseMethods {
         .collection("chatRoom")
         .document(chatRoomId)
         .collection("chats")
-        .orderBy('time')
+        .orderBy('no',descending: false)
         .snapshots();
   }
 
 
-  Future<void> addMessage(String chatRoomId, chatMessageData){
 
+
+  Future<void> addMessage(String chatRoomId, chatMessageData){
     Firestore.instance.collection("chatRoom")
         .document(chatRoomId)
-        .collection("chats")
-        .add(chatMessageData).catchError((e){
+        .collection("chats").doc(chatMessageData["time"].toString())
+        .set(chatMessageData).catchError((e){
           print(e.toString());
     });
   }

@@ -238,9 +238,8 @@ class _InformationsState extends State<Informations> with Validators {
                         userName.length < 3)
                       isVisible();
                     else {
-                      HelperFunctions.saveUserLoggedInSharedPreference(true);
-                      HelperFunctions.saveUserNameSharedPreference(userNameController.text);
-                      var userName = HelperFunctions.getUserNameSharedPreference();
+                      await HelperFunctions.saveUserNameSharedPreference(userNameController.text);
+                      var userName = await HelperFunctions.getUserNameSharedPreference();
                       print('The userName is $userName');
 
                         Navigator.pushReplacementNamed(context, ChatRoom.routeName);

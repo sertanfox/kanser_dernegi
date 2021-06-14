@@ -59,6 +59,5 @@ class Validators {
   ];
 }
 class Constants{
-
-  static String myName = "Sertan";
+  static String myName = "";
 }

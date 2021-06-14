@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:examples/components/helperfunctions.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/services/database.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _ChatState extends State<Chat> {
 
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
-
+  var value = 0;
   Widget chatMessages(){
     return StreamBuilder(
       stream: chats,
@@ -35,22 +36,28 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  addMessage() {
-    if (messageEditingController.text.isNotEmpty) {
-      Map<String, dynamic> chatMessageMap = {
-        "sendBy": Constants.myName,
-        "message": messageEditingController.text,
-        'time': DateTime
-            .now()
-            .millisecondsSinceEpoch,
-      };
+  addMessage() async{
+    try{
+       value = await HelperFunctions.getMessagePositionSharedPreference();
+      if (messageEditingController.text.isNotEmpty) {
+        Map<String, dynamic> chatMessageMap = {
+          "sendBy": Constants.myName,
+          "message": messageEditingController.text,
+          'time':  Timestamp.now().toDate(),
+          'no': value + 1,
+        };
 
-      DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+        DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
 
-      setState(() {
-        messageEditingController.text = "";
-      });
+        setState(() {
+          messageEditingController.text = "";
+          HelperFunctions.setMessagePosition(value);
+        });
+      }
+    }catch(e){
+      print(e.toString());
     }
+
   }
 
   @override
@@ -133,6 +140,8 @@ class _ChatState extends State<Chat> {
     );
   }
 
+
+
 }
 
 class MessageTile extends StatelessWidget {
@@ -173,8 +182,8 @@ class MessageTile extends StatelessWidget {
                 const Color(0xff2A75BC)
               ]
                   : [
-                const Color(0x1AFFFFFF),
-                const Color(0x1AFFFFFF)
+                Colors.green,
+                Colors.greenAccent
               ],
             )
         ),
