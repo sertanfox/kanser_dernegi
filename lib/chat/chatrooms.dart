@@ -1,8 +1,10 @@
 import 'package:examples/components/helperfunctions.dart';
 import 'package:examples/components/validators.dart';
+import 'package:examples/providers/user_provider.dart';
 import 'package:examples/screens/search.dart';
 import 'package:examples/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'chat.dart';
 
@@ -26,14 +28,14 @@ class _ChatRoomState extends State<ChatRoom> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ChatRoomsTile(
-                    userName: snapshot.data.documents[index].data['chatRoomId']
+                    userName: snapshot.data.documents[index].data()['chatRoomId']
                         .toString()
                         .replaceAll("_", "")
                         .replaceAll(Constants.myName, ""),
-                    chatRoomId: snapshot.data.documents[index].data["chatRoomId"],
+                    chatRoomId: snapshot.data.documents[index].data()["chatRoomId"],
                   );
                 })
-            : Container();
+            :  Container();
       },
     );
   }
@@ -46,6 +48,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   getUserInfogetChats() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    //TODO: SEt to sertan for Chat
+    // Constants.myName = "Sertan";
     DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
       setState(() {
         chatRooms = snapshots;
@@ -79,12 +83,6 @@ class _ChatRoomState extends State<ChatRoom> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-              image: AssetImage("assets/images/palmiye_aydinlik.jpg")
-          )
-        ),
         child: chatRoomsList(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -115,7 +113,7 @@ class ChatRoomsTile extends StatelessWidget {
         ));
       },
       child: Container(
-        color: Colors.black26,
+        color: Colors.transparent,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Row(
           children: [
@@ -125,13 +123,16 @@ class ChatRoomsTile extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(30)),
-              child: Text(userName.substring(0, 1),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      //fontFamily: 'OverpassRegular',
-                      fontWeight: FontWeight.w300)),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text(userName.substring(0, 1),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        //fontFamily: 'OverpassRegular',
+                        fontWeight: FontWeight.w300)),
+              ),
             ),
             SizedBox(
               width: 12,
@@ -139,10 +140,10 @@ class ChatRoomsTile extends StatelessWidget {
             Text(userName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                    color: Colors.black,
+                    fontSize: 19,
                     //fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                    fontWeight: FontWeight.w500))
           ],
         ),
       ),

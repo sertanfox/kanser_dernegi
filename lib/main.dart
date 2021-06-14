@@ -1,18 +1,21 @@
 import 'package:examples/chat/chatrooms.dart';
 import 'package:examples/components/validators.dart';
+import 'package:examples/providers/user_provider.dart';
 import 'package:examples/routes.dart';
-import 'package:examples/screens/group_chat.dart';
 import 'package:examples/screens/informations.dart';
-import 'package:examples/screens/verify_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:examples/screens/phonenumber.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'routes.dart';
 
 void main() async {
+  Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(Provider<UserProvider>(
+    create: (_)=>UserProvider(),
+      child: MyApp()));
 }
 class MyApp extends StatefulWidget with Validators {
   // This widget is the root of your application.
@@ -39,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: ChatRoom.routeName,
+      initialRoute: Informations.routeName,
       routes: routes,
     );
   }

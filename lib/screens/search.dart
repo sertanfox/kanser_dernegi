@@ -5,7 +5,7 @@ import 'package:examples/components/validators.dart';
 import 'package:examples/services/database.dart';
 import 'package:flutter/material.dart';
 
-import '../widget.dart';
+import '../components/widget.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -44,8 +44,8 @@ class _SearchState extends State<Search> {
         itemCount: searchResultSnapshot.documents.length,
         itemBuilder: (context, index){
           return userTile(
-            searchResultSnapshot.docs[index].data()["userName"],
-            searchResultSnapshot.docs[index].data()["userEmail"],
+            searchResultSnapshot.docs[index].data()["username"],
+            searchResultSnapshot.docs[index].data()["cancertype"],
           );
         }) : Container();
   }
@@ -71,7 +71,7 @@ class _SearchState extends State<Search> {
 
   }
 
-  Widget userTile(String userName,String userEmail){
+  Widget userTile(String userName,String cancerType){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
@@ -82,14 +82,15 @@ class _SearchState extends State<Search> {
               Text(
                 userName,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16
+                    color: Theme.of(context).accentColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
                 ),
               ),
               Text(
-                userEmail,
+                cancerType,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.grey,
                     fontSize: 16
                 ),
               )

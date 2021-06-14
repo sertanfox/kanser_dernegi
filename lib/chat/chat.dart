@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/services/database.dart';
 import 'package:flutter/material.dart';
 
-import '../widget.dart';
+import '../components/widget.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
@@ -29,8 +27,8 @@ class _ChatState extends State<Chat> {
           itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index){
               return MessageTile(
-                message: snapshot.data.documents[index].data["message"],
-                sendByMe: Constants.myName == snapshot.data.documents[index].data["sendBy"],
+                message: snapshot.data.documents[index].data()["message"],
+                sendByMe: Constants.myName == snapshot.data.documents[index].data()["sendBy"],
               );
             }) : Container();
       },
@@ -70,6 +68,12 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: appBarMain(context),
       body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("assets/images/palmiye_aydinlik.jpg")
+            )
+        ),
         child: Stack(
           children: [
             chatMessages(),
@@ -79,8 +83,8 @@ class _ChatState extends State<Chat> {
                   .size
                   .width,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                color: Color(0x54FFFFFF),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 11),
+                color: Colors.black38,
                 child: Row(
                   children: [
                     Expanded(
@@ -88,9 +92,9 @@ class _ChatState extends State<Chat> {
                           controller: messageEditingController,
                           style: simpleTextStyle(),
                           decoration: InputDecoration(
-                              hintText: "Message ...",
+                              hintText: "Mesajınızı yazın ...",
                               hintStyle: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black45,
                                 fontSize: 16,
                               ),
                               border: InputBorder.none

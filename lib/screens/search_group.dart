@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:examples/chat/chatrooms.dart';
 import 'package:flutter/material.dart';
 import '../functions.dart';
 import 'dart:io';
@@ -25,18 +26,22 @@ class _SearchGroupState extends State<SearchGroup>
   bool route = false;
 
   Timer _timer;
-  int _start = 10;
+  int _start = 2;
 
   void routeFalse() {
     route = false;
   }
-
-  @override
-  void setState(route) {
-    sleep(Duration(seconds: 1));
-    Navigator.pushNamed(context, '/group_chat');
-    routeFalse();
-  }
+  //
+  // @override
+  // void setState(route) {
+  //   sleep(Duration(seconds: 1));
+  //
+  //   // Navigator.pushReplacement(
+  //   //     context, MaterialPageRoute(builder: (context) => ChatRoom()));
+  //   // //TODO: REPLACE THIS NAVIGATOR
+  //   // //Navigator.pushNamed(context, '/chatrooms');
+  //  // routeFalse();
+  // }
 
   void startTimer(int time) {
     const oneSec = const Duration(seconds: 1);
@@ -59,7 +64,7 @@ class _SearchGroupState extends State<SearchGroup>
   void initState() {
     startTimer(_start);
     _animationController =
-        AnimationController(duration: Duration(seconds: 10), vsync: this);
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
 
     final _curvedAnimation = CurvedAnimation(
         parent: _animationController,
@@ -88,10 +93,7 @@ class _SearchGroupState extends State<SearchGroup>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue[400],
-      body: SafeArea(
-        child: Center(
+    return  Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,20 +112,8 @@ class _SearchGroupState extends State<SearchGroup>
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                child: Text(
-                  bool2 ? text12 : text22,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
             ],
           ),
-        ),
-      ),
     );
   }
 }

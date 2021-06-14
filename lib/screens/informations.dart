@@ -1,3 +1,5 @@
+import 'package:examples/chat/chatrooms.dart';
+import 'package:examples/components/helperfunctions.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/providers/user_provider.dart';
 import 'package:examples/screens/search_group.dart';
@@ -5,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../functions.dart';
-import '../services/crud.dart';
 
 class Informations extends StatefulWidget {
   Informations({Key key, this.phoneNum}) : super(key: key);
@@ -26,9 +27,9 @@ class _InformationsState extends State<Informations> with Validators {
   final FocusNode _cityFocusNode = FocusNode();
 
   final formKey = GlobalKey<FormState>();
-  crudMethods crudObj =  crudMethods();
   Validators valid = Validators();
   bool _isVisible = false;
+  bool _loadingPage =false;
 
   List<DropdownMenuItem<String>> _dropdownMenuItems;
   String _selectedCancer;
@@ -94,7 +95,7 @@ class _InformationsState extends State<Informations> with Validators {
       child: Scaffold(
         backgroundColor: Colors.blue[400],
         body: SafeArea(
-          child: Center(
+          child: _loadingPage ? CircularProgressIndicator() : Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -107,14 +108,16 @@ class _InformationsState extends State<Informations> with Validators {
                 ],
               ),
             ),
-          ),
+          ) ,
         ),
       ),
     );
   }
 
   Widget buildForm(BuildContext context, String userName, String errorText) {
-    UserProvider userProvider = new UserProvider();
+    //TODO: RESET THIS PART IF BUG OCCURS
+    //UserProvider userProvider = new UserProvider();
+    final userProvider = Provider.of<UserProvider>(context,listen:false);
     return Form(
         key: formKey,
         child: Column(
@@ -228,13 +231,20 @@ class _InformationsState extends State<Informations> with Validators {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   color: Colors.white,
-                  onPressed: () {
+                  onPressed: () async {
+
                     if (_selectedCancer.length == null ||
                         _selectedCity.length == null ||
                         userName.length < 3)
                       isVisible();
                     else {
-                      Navigator.pushNamed(context, SearchGroup.routeName);
+                      HelperFunctions.saveUserLoggedInSharedPreference(true);
+                      HelperFunctions.saveUserNameSharedPreference(userNameController.text);
+                      var userName = HelperFunctions.getUserNameSharedPreference();
+                      print('The userName is $userName');
+
+                        Navigator.pushReplacementNamed(context, ChatRoom.routeName);
+
                       print(_selectedCancer);
                       print(_selectedCity);
                       print(userNameController.text);
@@ -246,6 +256,9 @@ class _InformationsState extends State<Informations> with Validators {
                       userProvider.saveUser();
 
                     }
+                    setState(() {
+                      _loadingPage = true;
+                    });
                   },
                   child: Center(
                     child: Text(

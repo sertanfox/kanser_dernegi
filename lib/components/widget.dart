@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget appBarMain(BuildContext context) {
   return AppBar(
     title: Image.asset(
-      "assets/images/logo.png",
+      "assets/images/social-support.jpg",
       height: 40,
     ),
     elevation: 0.0,

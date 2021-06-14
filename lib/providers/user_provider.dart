@@ -1,11 +1,11 @@
 import 'package:examples/models/user.dart';
-import 'package:examples/services/firestore_service.dart';
+import 'package:examples/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class UserProvider with ChangeNotifier {
-  final firestoreService = FirestoreService();
+  final database = DatabaseMethods();
   String _phoneNumber;
   String _username;
   String _cancertype;
@@ -35,6 +35,6 @@ class UserProvider with ChangeNotifier {
         id: uuid.v4());
     print(
         "username :$_username, cancertype :$_cancertype, location :$location, id :$id");
-    firestoreService.saveUser(newUser);
+    database.saveUser(newUser);
   }
 }
