@@ -9,7 +9,10 @@ import 'package:provider/provider.dart';
 import 'chat.dart';
 
 class ChatRoom extends StatefulWidget {
+  final BuildContext context;
   static String routeName = "/chatrooms";
+
+  const ChatRoom({Key key, this.context}) : super(key: key);
 
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -47,28 +50,23 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   getUserInfogetChats() async {
-    Constants.myName = await HelperFunctions.getUserNameSharedPreference();
-    //TODO: SEt to sertan for Chat
-    // Constants.myName = "Sertan";
-    DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
-      setState(() {
-        chatRooms = snapshots;
-        print(
-            "we got the data + ${chatRooms.toString()} this is name  ${Constants.myName}");
-      });
-    });
+    // Constants.myName = await HelperFunctions.getUserNameSharedPreference();
+    // //DatabaseMethods().getUserChats(Constants.myName).then((snapshots) {
+    //   setState(() {
+    //     //chatRooms = snapshots;
+    //     print(
+    //         "we got the data + ${chatRooms.toString()} this is name  ${Constants.myName}");
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          "assets/images/social-support.jpg",
-          height: 40,
-        ),
+        title: Text('Akciğer Kanseri', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19),),
         elevation: 0.0,
-        centerTitle: false,
+        centerTitle: true,
         actions: [
           GestureDetector(
             onTap: () {
@@ -85,13 +83,7 @@ class _ChatRoomState extends State<ChatRoom> {
       body: Container(
         child: chatRoomsList(),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Search()));
-        },
-      ),
+
     );
   }
 }
@@ -118,21 +110,11 @@ class ChatRoomsTile extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 30,
-              width: 30,
+              height: 50,
+              width: 50,
               decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(30)),
-              child: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Text(userName.substring(0, 1),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22,
-                        //fontFamily: 'OverpassRegular',
-                        fontWeight: FontWeight.w300)),
-              ),
+              child: Image.asset('assets/images/lung.jpg')
             ),
             SizedBox(
               width: 12,

@@ -1,8 +1,10 @@
 import 'package:examples/chat/chatrooms.dart';
 import 'package:examples/components/helperfunctions.dart';
 import 'package:examples/components/validators.dart';
+import 'package:examples/models/user.dart';
 import 'package:examples/providers/user_provider.dart';
 import 'package:examples/screens/search_group.dart';
+import 'package:examples/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +14,7 @@ class Informations extends StatefulWidget {
   Informations({Key key, this.phoneNum}) : super(key: key);
   static String routeName = "/informations";
   String phoneNum;
+
   @override
   _InformationsState createState() => _InformationsState();
 }
@@ -30,10 +33,9 @@ class _InformationsState extends State<Informations> with Validators {
   Validators valid = Validators();
   bool _isVisible = false;
   bool _loadingPage =false;
-
+  DatabaseMethods databaseMethods =  DatabaseMethods();
   List<DropdownMenuItem<String>> _dropdownMenuItems;
   String _selectedCancer;
-
   List<DropdownMenuItem<String>> _dropdownCityItems;
   String _selectedCity;
 
@@ -235,14 +237,21 @@ class _InformationsState extends State<Informations> with Validators {
 
                     if (_selectedCancer.length == null ||
                         _selectedCity.length == null ||
-                        userName.length < 3)
+                        userNameController.text.length < 2)
                       isVisible();
                     else {
                       await HelperFunctions.saveUserNameSharedPreference(userNameController.text);
                       var userName = await HelperFunctions.getUserNameSharedPreference();
                       print('The userName is $userName');
+                       var user =  User(
+                          phoneNumber: "+90${widget.phoneNum}",
+                          username: userNameController.text,
+                          cancertype: _selectedCancer,
+                          location: _selectedCity,
+                          id: null);
 
-                        Navigator.pushReplacementNamed(context, ChatRoom.routeName);
+                      await databaseMethods.addNewUserToAkciger(userNameController.text, 'Akciger Kanseri');
+                      Navigator.pushReplacementNamed(context, SearchGroup.routeName, arguments: user );
 
                       print(_selectedCancer);
                       print(_selectedCity);

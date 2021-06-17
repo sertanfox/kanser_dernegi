@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 Widget appBarMain(BuildContext context) {
+  //TODO : SET NAME GROUP TO AKCIGER
   return AppBar(
-    title: Image.asset(
-      "assets/images/social-support.jpg",
-      height: 40,
-    ),
+    title: Text('Akciğer Grubu'),
     elevation: 0.0,
     centerTitle: false,
   );

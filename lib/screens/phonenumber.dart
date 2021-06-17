@@ -141,7 +141,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                                  int errorCode = isPhoneNumberValid(phoneNumber);
                                  if (errorCode == 101) {
                                    print("Sms doğrulamaya gidiyoruz...");
-                                   Navigator.push(
+                                   Navigator.pushReplacement(
                                        context,
                                        MaterialPageRoute(
                                            builder: (context) => Verify_Screen(

@@ -1,11 +1,13 @@
-import 'package:examples/chat/chatrooms.dart';
+import 'package:examples/bLoc/group_bloc.dart';
 import 'package:examples/components/validators.dart';
 import 'package:examples/providers/user_provider.dart';
 import 'package:examples/routes.dart';
-import 'package:examples/screens/phonenumber.dart';
+import 'package:examples/screens/informations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'chat/chatrooms.dart';
 import 'routes.dart';
 
 void main() async {
@@ -14,7 +16,10 @@ void main() async {
   await Firebase.initializeApp();
   runApp(Provider<UserProvider>(
     create: (_)=>UserProvider(),
-      child: MyApp()));
+      builder: (context,__)=> BlocProvider(
+        create:(_) => GroupBloc(),
+        child: MyApp()
+      ),));
 }
 class MyApp extends StatefulWidget with Validators {
   // This widget is the root of your application.
@@ -41,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: PhoneNumber.routeName,
+      initialRoute: Informations.routeName,
       routes: routes,
     );
   }

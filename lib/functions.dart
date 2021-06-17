@@ -21,7 +21,7 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-        radius: 35,
+        radius: 55,
         backgroundImage: AssetImage('assets/images/social-support.jpg'));
   }
 }

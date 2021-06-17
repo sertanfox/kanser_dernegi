@@ -309,7 +309,7 @@ class _Verify_ScreenState extends State<Verify_Screen> {
     bool isSignedIn = await signInWithOTP(
         _verificationCode, verificationId);
     if (isSignedIn != null || isSignedIn != false) {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => Informations(
