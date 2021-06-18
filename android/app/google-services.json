@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "702670141287-15aga9ati104ivnlaodccla2v1a8ks1t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sosyal.destek",
+            "certificate_hash": "2529c86b86babd66a3ac4f09513c029440181b90"
+          }
+        },
+        {
+          "client_id": "702670141287-32uspjqh1f8nf3bttmpsnof77gqus49k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sosyal.destek",
+            "certificate_hash": "f397cf064cbfc1cc234a79c0cffe2ffee4b08ff5"
+          }
+        },
+        {
           "client_id": "702670141287-k1q8o1jgfl5lla4ipmd4vdlhakv56rri.apps.googleusercontent.com",
           "client_type": 3
         }

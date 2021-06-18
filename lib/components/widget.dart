@@ -4,8 +4,9 @@ Widget appBarMain(BuildContext context) {
   //TODO : SET NAME GROUP TO AKCIGER
   return AppBar(
     title: Text('Akciğer Grubu'),
+    automaticallyImplyLeading: false,
     elevation: 0.0,
-    centerTitle: false,
+    centerTitle: true,
   );
 }
 

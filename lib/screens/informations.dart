@@ -241,6 +241,7 @@ class _InformationsState extends State<Informations> with Validators {
                       isVisible();
                     else {
                       await HelperFunctions.saveUserNameSharedPreference(userNameController.text);
+                      await HelperFunctions.setVisitingFlag();
                       var userName = await HelperFunctions.getUserNameSharedPreference();
                       print('The userName is $userName');
                        var user =  User(

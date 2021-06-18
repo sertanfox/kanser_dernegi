@@ -58,4 +58,16 @@ class HelperFunctions{
     return preferences.getInt(sharedPreferenceMessagePosition);
   }
 
+  static getVisitingFlag() async {
+    var preferences = await SharedPreferences.getInstance();
+    var alreadyVisited = preferences.getBool('alreadyVisited') ?? false;
+    return alreadyVisited;
+  }
+
+  static setVisitingFlag() async {
+    var preferences = await SharedPreferences.getInstance();
+    await preferences.setBool('alreadyVisited', true);
+  }
+
+
 }

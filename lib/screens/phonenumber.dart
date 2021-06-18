@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import '../functions.dart';
 
 class PhoneNumber extends StatefulWidget with Validators {
-  static String routeName = "/";
+  static String routeName = "/phonenumber";
   PhoneNumber({Key key}) : super(key: key);
 
   @override

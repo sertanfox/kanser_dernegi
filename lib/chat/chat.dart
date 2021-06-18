@@ -8,8 +8,9 @@ import '../components/widget.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
+  final String currentUser;
 
-  Chat({this.chatRoomId});
+  Chat({this.chatRoomId,this.currentUser});
 
   @override
   _ChatState createState() => _ChatState();
@@ -30,12 +31,13 @@ class _ChatState extends State<Chat> {
               content: Text(
                   'Bu kullanıcı hakkında şikayette bulunmak ister misiniz?'),
               actions: [
+                //TODO : CUSTOM THE DIALOG FOR [SIKAYET]
                 FlatButton(
-                  child: Text('Iptal et'),
+                  child: Text('Hayır'),
                   onPressed: () => Navigator.of(context).pop(false),
                 ),
                 FlatButton(
-                  child: Text('Devam'),
+                  child: Text('Evet'),
                   onPressed: () {
                     databaseMethods.addComplain(sender, message);
                     Navigator.of(context).pop(true);
@@ -45,16 +47,17 @@ class _ChatState extends State<Chat> {
             ));
   }
 
-  var arraySize;
 
   Widget chatMessages() {
+
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
-        arraySize = chats.length;
         return snapshot.hasData
             ? ListView.builder(
-                itemCount: snapshot.data.documents.length,
+                itemCount: snapshot.data.documents.length ,
+                //TODO: HERE ADD UP A SPACE AT THE END OF THE CONVERSATION [BOTTOM SCREEN]
+                padding: EdgeInsets.only(bottom:100),
                 itemBuilder: (context, index) {
                   return MessageTile(
                     time: snapshot.data.documents[index].data()["time"],
@@ -111,66 +114,66 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: appBarMain(context),
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage("assets/images/palmiye_aydinlik.jpg"))),
-        child: Stack(
-          children: [
-            chatMessages(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 11),
-                color: Colors.black38,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                      controller: messageEditingController,
-                      style: simpleTextStyle(),
-                      decoration: InputDecoration(
-                          hintText: "Mesajınızı yazın ...",
-                          hintStyle: TextStyle(
-                            color: Colors.black45,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none),
-                    )),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        addMessage();
-                      },
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0x36FFFFFF),
-                                    const Color(0x0FFFFFFF)
-                                  ],
-                                  begin: FractionalOffset.topLeft,
-                                  end: FractionalOffset.bottomRight),
-                              borderRadius: BorderRadius.circular(40)),
-                          padding: EdgeInsets.all(12),
-                          child: Image.asset(
-                            "assets/images/send.png",
-                            height: 25,
-                            width: 25,
-                          )),
-                    ),
-                  ],
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/palmiye_aydinlik.jpg"))),
+          child: Stack(
+            children: [
+              chatMessages(),
+              Container(
+                alignment: Alignment.bottomCenter,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 11),
+                  color: Colors.black38,
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        controller: messageEditingController,
+                        style: simpleTextStyle(),
+                        decoration: InputDecoration(
+                            hintText: "Mesajınızı yazın ...",
+                            hintStyle: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 16,
+                            ),
+                            border: InputBorder.none),
+                      )),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          addMessage();
+                        },
+                        child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      const Color(0x36FFFFFF),
+                                      const Color(0x0FFFFFFF)
+                                    ],
+                                    begin: FractionalOffset.topLeft,
+                                    end: FractionalOffset.bottomRight),
+                                borderRadius: BorderRadius.circular(40)),
+                            padding: EdgeInsets.all(12),
+                            child: Image.asset(
+                              "assets/images/send.png",
+                              height: 25,
+                              width: 25,
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
     );
   }
 }
@@ -189,118 +192,111 @@ class MessageTile extends StatelessWidget {
       @required this.onPressed,
       @required this.time});
 
-  String timeZone;
-  ///This Function sets the Time zone to AM or PM
-  getTimeZone(){
-    if(time.toDate().hour > 12){
-      timeZone = 'PM';
-    }else{
-      timeZone = 'AM';
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
-     getTimeZone();
+   var size = MediaQuery.of(context).padding.topRight;
     return GestureDetector(
-      onLongPress: onPressed,
-      child: Container(
-        padding: EdgeInsets.only(
-            top: 8,
-            bottom: 8,
-            left: sendByMe ? 0 : 24,
-            right: sendByMe ? 24 : 0),
-        alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
+        onLongPress: onPressed,
         child: Container(
-          margin:
-              sendByMe ? EdgeInsets.only(left: 30) : EdgeInsets.only(right: 30),
-          padding: EdgeInsets.only(top: 10, bottom: 16, left: 16, right: 12),
-          decoration: BoxDecoration(
-              borderRadius: sendByMe
-                  ? BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                      bottomLeft: Radius.circular(15))
-                  : BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
-              gradient: LinearGradient(
-                colors: sendByMe
-                    ? [
-                        //TODO: CHANGE COLORS OF BUBBLES
-                        const Color(0xff046161),
-                        const Color(0xff046161),
-                      ]
-                    : [
-                        const Color(0xff262d31),
-                        const Color(0xff262d31),
-                      ],
-              )),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              //TODO: FORMAT TIME TO WHATSAPP FORMAT
-              sendByMe
-                  ? Padding(
-                    padding: EdgeInsets.fromLTRB(0,0,2,0),
-                    child: RichText(
-                        text: TextSpan(
-                          text: '',
-                          style: TextStyle(
-                              color: Colors.deepOrange.shade300,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                  )
-                  : Padding(
-                    padding:  EdgeInsets.fromLTRB(0,2,2,6),
-                    child: RichText(
-                        text: TextSpan(
-                          text: sender,
-                          style: TextStyle(
-                              color: Colors.deepOrange.shade300,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
+          padding: EdgeInsets.only(
+              top: 8,
+              bottom: 8,
+              left: sendByMe ? 0 : 24,
+              right: sendByMe ? 24 : 0),
+          alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            margin:
+                sendByMe ? EdgeInsets.only(left: 120) : EdgeInsets.only(right: 40),
+            padding: EdgeInsets.only(top: 10, bottom: 16, left: 16, right: 12),
+            decoration: BoxDecoration(
+                borderRadius: sendByMe
+                    ? BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(15))
+                    : BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15)),
+                gradient: LinearGradient(
+                  colors: sendByMe
+                      ? [
+                          //TODO: CHANGE COLORS OF BUBBLES
+                          const Color(0xff046161),
+                          const Color(0xff046161),
+                        ]
+                      : [
+                          const Color(0xff262d31),
+                          const Color(0xff262d31),
+                        ],
+                )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
 
-                        ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: '',
+                        style: TextStyle(
+                            color: Colors.deepOrange.shade300,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text:
+                              ' ${time.toDate().hour}:${time.toDate().minute}',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300)),
+                        ],
                       ),
-                  ),
-
-              Text(message,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      // fontFamily: 'OverpassRegular',
-                      fontWeight: FontWeight.w300)),
-              Padding(
-                padding: EdgeInsets.fromLTRB(45,2,2,2),
-                child: RichText(
-                  text: TextSpan(
-                    text: '',
-                    style: TextStyle(
-                        color: Colors.deepOrange.shade300,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text:
-                          ' ${time.toDate().hour}:${time.toDate().minute} $timeZone',
-                          style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
-                              fontSize: 10,
-                              fontWeight: FontWeight.w300)),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    sendByMe
+                        ? SizedBox(height: 8)
+                        : Padding(
+                          padding:  EdgeInsets.fromLTRB(0,2,2,6),
+                          child: RichText(
+                              text: TextSpan(
+                                text: sender,
+                                style: TextStyle(
+                                    color: Colors.deepOrange.shade300,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400),
+
+                              ),
+                            ),
+                        ),
+
+                    Text(message,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            // fontFamily: 'OverpassRegular',
+                            fontWeight: FontWeight.w300)),
+
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
+
     );
   }
 }

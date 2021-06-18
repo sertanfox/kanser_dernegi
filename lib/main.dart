@@ -3,11 +3,14 @@ import 'package:examples/components/validators.dart';
 import 'package:examples/providers/user_provider.dart';
 import 'package:examples/routes.dart';
 import 'package:examples/screens/informations.dart';
+import 'package:examples/screens/screens_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'chat/chat.dart';
 import 'chat/chatrooms.dart';
+import 'components/helperfunctions.dart';
 import 'routes.dart';
 
 void main() async {
@@ -30,9 +33,24 @@ class MyApp extends StatefulWidget with Validators {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _isVisited;
+  String currentUser;
+
+  ///_setFlagValue for the user when he entered the app
+
+  Future<void> _setFlagValue() async {
+    bool isVisited = await HelperFunctions.getVisitingFlag();
+    if (HelperFunctions.getUserNameSharedPreference() != null){
+      currentUser = await HelperFunctions.getUserNameSharedPreference();
+    }
+    setState(() {
+      _isVisited = isVisited;
+    });
+  }
 
   @override
   void initState() {
+    _setFlagValue();
     super.initState();
   }
 
@@ -46,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: Colors.blue[400],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: Informations.routeName,
+      home: _isVisited != null && true ? Chat(chatRoomId: 'Akciger Kanseri') : Informations() ,
       routes: routes,
     );
   }
